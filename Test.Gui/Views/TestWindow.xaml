@@ -1,0 +1,32 @@
+﻿<panel:PanelMainWindow x:Class="Test.Gui.View.TestWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Test.Gui"
+        xmlns:panel="clr-namespace:Test.Panel.View;assembly=Test.Panel"
+        mc:Ignorable="d"
+        Title="MainWindow"
+        Height="600"
+        Width="800"
+        DataContext="{Binding Source={StaticResource Locator}}">
+    <StackPanel DataContext="{Binding Main}">
+        <TextBlock Text="{Binding Name}"
+                   Margin="20" />
+        <ListBox ItemsSource="{Binding Names}"
+                 SelectedItem="{Binding Name}"
+                 Margin="20" />
+        <Slider SelectionStart="0"
+                SelectionEnd="10"
+                Delay="1"
+                Margin="20" />
+        <ProgressBar Height="30"
+                     Margin="20"
+                     FlowDirection="LeftToRight"
+                     IsIndeterminate="True"/>
+
+    </StackPanel>
+</panel:PanelMainWindow>
+
+
+

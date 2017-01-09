@@ -1,0 +1,21 @@
+﻿<Window x:Class="Test.Gui.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Test.Gui.View"
+        mc:Ignorable="d"
+        Title="MainWindow"
+        Height="768"
+        Width="1024"
+        DataContext="{Binding Source={StaticResource Locator}}">
+    <StackPanel Orientation="Horizontal">
+        <MediaElement Width="320"
+                      VerticalAlignment="Top"
+                      HorizontalAlignment="Left"
+                      Height="240"
+                      x:Name="mediaElement"                      
+                      Source="Content/166070977.mp4"/>
+        <Frame x:Name="MainFrame" Source="MainPage.xaml" />
+    </StackPanel>
+</Window>
