@@ -21,6 +21,7 @@ using GalaSoft.MvvmLight.Command;
 using Test.Services;
 using Test.Services.Interface;
 using System;
+using System.Diagnostics;
 
 namespace Test.Gui.ViewModel
 {
@@ -30,13 +31,16 @@ namespace Test.Gui.ViewModel
     /// </summary>
     public class ViewModelLocator
     {
-        private IFrameNavigationService _navService;
+        private IFrameNavigationService _frameNavigationService;
+
+        private INavigationService _navigationService => SimpleIoc.Default.GetInstance<INavigationService>();
 
         public RelayCommand<string> NavigateCommand { get; set; }
 
         private void OnNavigate(string page)
         {
-            _navService.NavigateTo(page);
+            //_frameNavigationService.NavigateTo(page);
+            _navigationService.NavigateTo(page);
         }
 
 
@@ -45,6 +49,8 @@ namespace Test.Gui.ViewModel
         /// </summary>
         public ViewModelLocator()
         {
+            Debug.WriteLine("Locator created!");
+
             if (!ServiceLocator.IsLocationProviderSet)
                 ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
@@ -65,7 +71,7 @@ namespace Test.Gui.ViewModel
             navigationService.Configure("FirstPage", new Uri("../Views/FirstPage.xaml", UriKind.Relative));
             navigationService.Configure("SecondPage", new Uri("../Views/SecondPage.xaml", UriKind.Relative));
 
-            _navService = navigationService;
+            _frameNavigationService = navigationService;
             SimpleIoc.Default.Register<IFrameNavigationService>(() => navigationService);
 
             NavigateCommand = new RelayCommand<string>(OnNavigate);
