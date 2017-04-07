@@ -31,17 +31,9 @@ namespace Test.Gui.ViewModel
     /// </summary>
     public class ViewModelLocator
     {
-        private IFrameNavigationService _frameNavigationService;
-
-        private INavigationService _navigationService => SimpleIoc.Default.GetInstance<INavigationService>();
+        private INavigationService _navigationService;
 
         public RelayCommand<string> NavigateCommand { get; set; }
-
-        private void OnNavigate(string page)
-        {
-            //_frameNavigationService.NavigateTo(page);
-            _navigationService.NavigateTo(page);
-        }
 
 
         /// <summary>
@@ -51,6 +43,7 @@ namespace Test.Gui.ViewModel
         {
             Debug.WriteLine("Locator created!");
 
+            //Register Services
             if (!ServiceLocator.IsLocationProviderSet)
                 ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
@@ -67,13 +60,7 @@ namespace Test.Gui.ViewModel
             
             SimpleIoc.Default.Register<MainViewModel>();
 
-            var navigationService = new FrameNavigationService();
-            navigationService.Configure("FirstPage", new Uri("../Views/FirstPage.xaml", UriKind.Relative));
-            navigationService.Configure("SecondPage", new Uri("../Views/SecondPage.xaml", UriKind.Relative));
-
-            _frameNavigationService = navigationService;
-            SimpleIoc.Default.Register<IFrameNavigationService>(() => navigationService);
-
+            //Setup commands
             NavigateCommand = new RelayCommand<string>(OnNavigate);
 
         }
@@ -83,6 +70,13 @@ namespace Test.Gui.ViewModel
         public MainViewModel Main
         {
             get { return ServiceLocator.Current.GetInstance<MainViewModel>(); }
+        }
+
+        private void OnNavigate(string page)
+        {
+            Debug.WriteLine("Get NavigationService!");
+            _navigationService = SimpleIoc.Default.GetInstance<INavigationService>();
+            _navigationService.NavigateTo(page);
         }
 
         public static void Cleanup()

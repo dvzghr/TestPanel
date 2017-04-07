@@ -26,15 +26,15 @@ namespace Test.Gui
             Exit += OnExit;
             DispatcherUnhandledException += App_DispatcherUnhandledException;
 
-            //SimpleIoc.Default.Register<ViewModelLocator>();
+            SimpleIoc.Default.Register<ViewModelLocator>();
         }
 
         private void App_Startup(object sender, StartupEventArgs e)
         {
-            //var locator = ServiceLocator.Current.GetInstance<ViewModelLocator>();
-            //var mainWindow = new MainWindow { DataContext = locator };
+            var locator = ServiceLocator.Current.GetInstance<ViewModelLocator>();
+            var mainWindow = new MainWindow { DataContext = locator };
             //var mainWindow = new TestWindow { DataContext = locator };
-            //mainWindow.Show();
+            mainWindow.Show();
         }
 
         private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)

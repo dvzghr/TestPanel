@@ -15,6 +15,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Views;
+using Microsoft.Practices.ServiceLocation;
+using Test.Gui.ViewModel;
 
 namespace Test.Gui.View
 {
@@ -27,20 +29,25 @@ namespace Test.Gui.View
         {
             InitializeComponent();
             Loaded += OnLoaded;
+
+            if (SimpleIoc.Default.ContainsCreated<INavigationService>()) return;
+
+            Debug.WriteLine("Registering NavigationService!");
+            SimpleIoc.Default.Register<INavigationService>(() => this);
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            SimpleIoc.Default.Register<INavigationService>(() => this);
-
             Debug.Assert(NavigationService != null, "NavigationService != null");
-            NavigationService.Navigating += OnNavigated;
+            NavigationService.Navigating += OnNavigating;
         }
 
-        private void OnNavigated(object sender, NavigatingCancelEventArgs navigatingCancelEventArgs)
+        private void OnNavigating(object sender, NavigatingCancelEventArgs navigatingCancelEventArgs)
         {
             Debug.Assert(NavigationService != null, "NavigationService != null");
-            NavigationService.Navigating -= OnNavigated;
+            NavigationService.Navigating -= OnNavigating;
+
+            Debug.WriteLine("Unregistering NavigationService!");
             SimpleIoc.Default.Unregister<INavigationService>();
         }
 

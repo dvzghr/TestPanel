@@ -29,6 +29,7 @@ namespace Test.Gui.ViewModel
         {
             //GetPeople();
             Task.Run(async () => await GetPeople());
+            Name = "Bound with MainViewModel!";
         }
 
         private IPeopleService peopleService = SimpleIoc.Default.GetInstance<IPeopleService>();

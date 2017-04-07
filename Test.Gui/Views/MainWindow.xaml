@@ -8,14 +8,20 @@
         Title="MainWindow"
         Height="768"
         Width="1024"
-        DataContext="{Binding Source={StaticResource Locator}}">
+        d:DataContext="{Binding Source={StaticResource Locator}}">
     <StackPanel Orientation="Horizontal">
         <MediaElement Width="320"
                       VerticalAlignment="Top"
                       HorizontalAlignment="Left"
                       Height="240"
-                      x:Name="mediaElement"                      
-                      Source="Content/166070977.mp4"/>
-        <Frame x:Name="MainFrame" Source="MainPage.xaml" />
+                      x:Name="mediaElement"
+                      Source="Content/166070977.mp4" />
+        <Frame x:Name="MainFrame"
+               Width="300"
+               Height="400"
+               VerticalAlignment="Top"
+               Source="MainPage.xaml"
+               DataContextChanged="MainFrame_OnDataContextChanged"
+               LoadCompleted="MainFrame_OnLoadCompleted"/>
     </StackPanel>
 </Window>

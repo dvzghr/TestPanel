@@ -23,13 +23,23 @@ namespace Test.Gui.View
         public MainWindow()
         {
             InitializeComponent();
-            //MainFrame.Loaded += OnLoaded;
         }
 
-        private void OnLoaded(object sender, RoutedEventArgs e)
+
+        //hack: http://stackoverflow.com/questions/3621424/page-datacontext-not-inherited-from-parent-frame
+        private void MainFrame_OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            var frame = sender as Frame;
-            var page = frame?.Content as Page;
+            UpdateContext(sender as Frame);
+        }
+
+        private void MainFrame_OnLoadCompleted(object sender, NavigationEventArgs e)
+        {
+            UpdateContext(sender as Frame);
+        }
+
+        private void UpdateContext(Frame frame)
+        {
+            var page = frame.Content as Page;
             if (page != null)
                 page.DataContext = this.DataContext;
         }
